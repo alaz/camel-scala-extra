@@ -24,19 +24,19 @@
       <id>alaz</id>
       <email>azarov@osinka.com</email>
       <name>Alexander Azarov</name>
-      <timezone>+4</timezone>
+      <timezone>+3</timezone>
     </developer>
   </developers>
 
   <scm>
-    <connection>scm:git:git://github.com/osinka/camel-scala.git</connection>
-    <developerConnection>scm:git:git@github.com:osinka/camel-scala.git</developerConnection>
-    <url>http://github.com/osinka/camel-scala</url>
+    <connection>scm:git:git://github.com/osinka/camel-scala-extra.git</connection>
+    <developerConnection>scm:git:git@github.com:osinka/camel-scala-extra.git</developerConnection>
+    <url>http://github.com/osinka/camel-scala-extra</url>
   </scm>
 
   <issueManagement>
     <system>github</system>
-    <url>http://github.com/osinka/camel-scala/issues</url>
+    <url>http://github.com/osinka/camel-scala-extra/issues</url>
   </issueManagement>
 
   <properties>
@@ -62,12 +62,6 @@
       <version>${camel.version}</version>
     </dependency>
     <dependency>
-      <groupId>org.apache.camel</groupId>
-      <artifactId>camel-test</artifactId>
-      <version>${camel.version}</version>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
       <groupId>org.scalatest</groupId>
       <artifactId>scalatest</artifactId>
       <version>1.3</version>
@@ -77,6 +71,24 @@
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
       <version>4.8.2</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>commons-logging</groupId>
+      <artifactId>commons-logging</artifactId>
+      <version>1.1.1</version>
+      <scope>testing</scope>
+    </dependency>
+    <dependency>
+      <groupId>ch.qos.logback</groupId>
+      <artifactId>logback-classic</artifactId>
+      <version>0.9.24</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>log4j-over-slf4j</artifactId>
+      <version>1.6.1</version>
       <scope>test</scope>
     </dependency>
     <dependency>
@@ -130,6 +142,12 @@
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-surefire-plugin</artifactId>
         <version>2.7.1</version>
+        <configuration>
+          <includes>
+            <include>**/*Test.class</include>
+            <include>**/*Spec.class</include>
+          </includes>
+        </configuration>
       </plugin>
       <plugin>
         <groupId>com.mycila.maven-license-plugin</groupId>

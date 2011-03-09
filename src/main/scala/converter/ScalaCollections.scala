@@ -5,7 +5,7 @@ import org.apache.camel.Converter
 import collection.JavaConversions._
 
 @Converter
-object ScalaImmutableCollections {
+class ScalaImmutableCollections {
   import collection.{Iterator, Iterable, Map, Seq, Set}
   import java.lang.{Iterable => JIterable}
   import java.util.{Collection => JCollection, Enumeration => JEnumeration, Iterator => JIterator, List => JList, Map => JMap, Set => JSet}
@@ -45,7 +45,7 @@ object ScalaImmutableCollections {
 }
 
 @Converter
-object ScalaMutableCollections {
+class ScalaMutableCollections {
   import collection.mutable.{ConcurrentMap, Buffer, Map, Seq, Set}
   import java.util.{Dictionary => JDictionary, List => JList, Map => JMap, Set => JSet}
   import java.util.concurrent.{ConcurrentMap => JConcurrentMap}
