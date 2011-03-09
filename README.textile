@@ -1,0 +1,46 @@
+h1. Extra Apache Camel methods for Scala
+
+Despite the fact this project relies on "camel-scala":http://camel.apache.org/scala-dsl.html component from Apache Camel, in fact it __discourages__ it's use. Instead of using beta DSL from camel-scala, you may use very small choice of implicits (certainly you can always use more from "camel-scala").
+
+Basically this project provides:
+
+- few pimps for writing @RouteBuilder@s
+- few Camel converters for Scala types and collections
+
+h2. RouteHelper
+
+@com.osinka.scala.camel.RouteBuilderHelper@ trait is provided to ease writing @RouteBuilder@s. To start:
+
+<pre><code>class MyRouteBuilder extends RouteBuilder with RouteBuilderHelper {
+  override def configure {</code></pre>
+
+h3. Rich objects
+
+h3. Processors
+
+h3. Filters
+
+h2. Converters
+
+Few Camel type converters for Scala types:
+
+- Scala @Symbol@ <=> @String@
+
+Immutable collections conversions:
+
+- Scala @Iterator@ <=> Java @Iterator@
+- Scala @Iterator@ <=> Java @Enumeration@
+- Scala @Iterable@ <=> Java @Iterable@
+- Scala @Iterable@ <=> Java @Collection@
+- Scala @Set@ => Java @Set@
+- Scala @Map@ => Java @Map@
+- Scala @Seq@ => Java @List@
+
+Mutable collections conversions:
+
+- Scala @Buffer@ <=> Java @List@
+- Scala @Set@ <=> Java @Set@
+- Scala @Map@ <=> Java @Dictionary@
+- Scala @Map@ <=> Java @Map@
+- Scala @ConcurrentMap@ <=> Java @ConcurrentMap@
+- Scala @Seq@ => Java @List@
