@@ -17,6 +17,7 @@ package com.osinka.camel.scala
 
 import reflect.Manifest
 import org.apache.camel.{Exchange, Message, Processor, CamelExecutionException}
+import org.apache.camel.processor.aggregate.AggregationStrategy
 import org.apache.camel.builder.RouteBuilder
 import org.apache.camel.scala.{Preamble, RichExchange, RichMessage}
 import org.apache.camel.scala.dsl.{ScalaProcessor, ScalaPredicate}
@@ -35,6 +36,7 @@ trait RouteBuilderHelper extends Preamble { self: RouteBuilder =>
 
   implicit def enrichUnitF(f: Exchange => Unit) = new ScalaProcessor(f)
   implicit def enrichFn(f: Exchange => Any) = new ScalaPredicate(f)
+  implicit def enrichFnAggr(f: (Exchange, Exchange) => Exchange) = new FnAggregationStrategy(f)
 
   /**
    * process { in[String] { _+"11" } toIn }
@@ -55,6 +57,9 @@ trait RouteBuilderHelper extends Preamble { self: RouteBuilder =>
   implicit def wrapperFilter(w: FnProcessor): ScalaPredicate =
     (exchange: Exchange) => w.f(exchange)
 
+  /**
+   * Wrapper for Processor / Predicate
+   */
   class FnProcessor(val f: (Exchange) => Any) extends Processor {
     lazy val toOut: ScalaProcessor =
       (exchange: Exchange) => exchange.out = f(exchange)
@@ -65,5 +70,12 @@ trait RouteBuilderHelper extends Preamble { self: RouteBuilder =>
     override def process(exchange: Exchange) {
       toIn.process(exchange)
     }
+  }
+
+  /**
+   * Wrapper for (Exchange, Exchange) => Exchange that acts as AggregationStrategy
+   */
+  class FnAggregationStrategy(aggregator: (Exchange, Exchange) => Exchange) extends AggregationStrategy {
+    override def aggregate(original: Exchange, resource: Exchange): Exchange = aggregator(original, resource)
   }
 }
