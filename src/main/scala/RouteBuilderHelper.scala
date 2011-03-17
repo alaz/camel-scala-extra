@@ -25,36 +25,30 @@ trait RouteBuilderHelper extends Preamble { self: RouteBuilder =>
    * process { in[String] { _+"11" } toIn }
    * process { in[Int] { 11+ } toOut }
    */
-  def in[T](f: (T) => Any)(implicit m: Manifest[T]) =
-    new ExchangeProcessorWrapper(exchange => f(exchange getIn m.erasure.asInstanceOf[Class[T]]))
+  def in[T](f: (T) => Any)(implicit m: Manifest[T]) = new FnProcessor(exchange => f(exchange.in[T]))
 
   /**
    * process { out { (s: String) => s+"11" } toIn }
    * process { out[Int] { _+11 } toOut }
    */
-  def out[T](f: (T) => Any)(implicit m: Manifest[T]) =
-    new ExchangeProcessorWrapper(exchange => f(exchange getOut m.erasure.asInstanceOf[Class[T]]))
+  def out[T](f: (T) => Any)(implicit m: Manifest[T]) = new FnProcessor(exchange => f(exchange.getOut.getBody(m.erasure).asInstanceOf[T]))
 
   /**
    * filter { in[Int] { _ % 2 == 0 } }
    * filter { out { (s: String) => s.startsWith("aa") } }
    */
-  implicit def wrapperFilter(w: ExchangeProcessorWrapper): ScalaPredicate =
+  implicit def wrapperFilter(w: FnProcessor): ScalaPredicate =
     (exchange: Exchange) => w.f(exchange)
 
-  class ExchangeProcessorWrapper(val f: (Exchange) => Any) extends Processor {
-    def toOut: ScalaProcessor =
-      (exchange: Exchange) => {
-        exchange.getOut setBody f(exchange)
-      }
+  class FnProcessor(val f: (Exchange) => Any) extends Processor {
+    lazy val toOut: ScalaProcessor =
+      (exchange: Exchange) => exchange.out = f(exchange)
 
-    def toIn: ScalaProcessor =
-      (exchange: Exchange) => {
-        exchange.getIn setBody f(exchange)
-      }
+    lazy val toIn: ScalaProcessor =
+      (exchange: Exchange) => exchange.in = f(exchange)
 
     override def process(exchange: Exchange) {
-      throw new CamelExecutionException("When using 'in'/'out' Scala DSLs, you should specify 'toIn'/'toOut', as there is no default behavior", exchange)
+      toIn.process(exchange)
     }
   }
 }
