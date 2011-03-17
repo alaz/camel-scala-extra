@@ -34,9 +34,10 @@ trait RouteBuilderHelper extends Preamble { self: RouteBuilder =>
 
   implicit def enrichMessage(msg: Message) = new RichMessage(msg)
 
-  implicit def enrichUnitF(f: Exchange => Unit) = new ScalaProcessor(f)
-  implicit def enrichFn(f: Exchange => Any) = new ScalaPredicate(f)
-  implicit def enrichFnAggr(f: (Exchange, Exchange) => Exchange) = new FnAggregationStrategy(f)
+  implicit def enrichFnUnit(f: Exchange => Unit) = new ScalaProcessor(f)
+  implicit def enrichUnit(f: => Unit) = new ScalaProcessor( (_: Exchange) => f )
+  implicit def enrichFnAny(f: Exchange => Any) = new ScalaPredicate(f)
+  implicit def enrichAggr(f: (Exchange, Exchange) => Exchange) = new FnAggregationStrategy(f)
 
   /**
    * process { in[String] { _+"11" } toIn }
