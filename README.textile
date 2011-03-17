@@ -4,8 +4,8 @@ Despite the fact this project relies on "camel-scala":http://camel.apache.org/sc
 
 Basically this project provides:
 
-- few pimps for writing `RouteBuilder`s
-- few Camel converters for Scala types and collections
+* few pimps for writing `RouteBuilder`s
+* few Camel converters for Scala types and collections
 
 h2. RouteHelper
 
@@ -18,43 +18,43 @@ h3. Rich objects
 
 "camel-scala" provides a useful implicit conversion to enrich objects of `Exchange`. Consult the source code of "camel-scala" since there is no javadoc/scaladoc published. Basically you can do the following and alike:
 
-- @exchange.in = message@ instead of @exchange.getIn.setBody(message)@
-- @val obj = exchange.in[Type]@ instead of @val obj = exchange.getIn.getBody(classOf[Type])@
+* @exchange.in = message@ instead of @exchange.getIn.setBody(message)@
+* @val obj = exchange.in[Type]@ instead of @val obj = exchange.getIn.getBody(classOf[Type])@
 
 h3. Processors
 
 Many processors / filters in routes operate on only one part of @Exchange@, e.g. on "in" only. You can express such processor/filters with short wrappers like:
 
-- @process(in[Int] { 1+ } .toIn)@ will try to convert "in" message of the exchange to @Int@, increment by 1 and write it back to "in". The is the same as @process(in[Int] { 1+ })@
-- Otherwise, you can process "out": @process(out[Int] {1+})@ will write the result into "in". To write it into "out": @process(out[Int] {1+} .toOut)@
+* @process(in[Int] { 1+ } .toIn)@ will try to convert "in" message of the exchange to @Int@, increment by 1 and write it back to "in". The is the same as @process(in[Int] { 1+ })@
+* Otherwise, you can process "out": @process(out[Int] {1+})@ will write the result into "in". To write it into "out": @process(out[Int] {1+} .toOut)@
 
 h3. Filters
 
 Use the same DSL for filters:
 
-- @filter(in[Int] {0==})@
+* @filter(in[Int] {0==})@
 
 h2. Converters
 
 Few Camel type converters for Scala types:
 
-- Scala @Symbol@ <=> @String@
+* Scala @Symbol@ <=> @String@
 
 Immutable collections conversions:
 
-- Scala @Iterator@ <=> Java @Iterator@
-- Scala @Iterator@ <=> Java @Enumeration@
-- Scala @Iterable@ <=> Java @Iterable@
-- Scala @Iterable@ <=> Java @Collection@
-- Scala @Set@ => Java @Set@
-- Scala @Map@ => Java @Map@
-- Scala @Seq@ => Java @List@
+* Scala @Iterator@ <=> Java @Iterator@
+* Scala @Iterator@ <=> Java @Enumeration@
+* Scala @Iterable@ <=> Java @Iterable@
+* Scala @Iterable@ <=> Java @Collection@
+* Scala @Set@ => Java @Set@
+* Scala @Map@ => Java @Map@
+* Scala @Seq@ => Java @List@
 
 Mutable collections conversions:
 
-- Scala @Buffer@ <=> Java @List@
-- Scala @Set@ <=> Java @Set@
-- Scala @Map@ <=> Java @Dictionary@
-- Scala @Map@ <=> Java @Map@
-- Scala @ConcurrentMap@ <=> Java @ConcurrentMap@
-- Scala @Seq@ => Java @List@
+* Scala @Buffer@ <=> Java @List@
+* Scala @Set@ <=> Java @Set@
+* Scala @Map@ <=> Java @Dictionary@
+* Scala @Map@ <=> Java @Map@
+* Scala @ConcurrentMap@ <=> Java @ConcurrentMap@
+* Scala @Seq@ => Java @List@
