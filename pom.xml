@@ -3,7 +3,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.osinka.camel</groupId>
   <artifactId>camel-scala-extra</artifactId>
-  <version>1.0.0</version> <!-- http://semver.org/ -->
+  <version>1.0.1-SNAPSHOT</version> <!-- http://semver.org/ -->
   <packaging>jar</packaging>
   <name>Extra Scala helpers for Apache Camel</name>
   <inceptionYear>2011</inceptionYear>
