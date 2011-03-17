@@ -16,10 +16,12 @@ h2. RouteHelper
 
 h3. Rich objects
 
-"camel-scala" provides a useful implicit conversion to enrich objects of `Exchange`. Consult the source code of "camel-scala" since there is no javadoc/scaladoc published. Basically you can do the following and alike:
+"camel-scala" provides a useful implicit conversion to enrich objects of `Exchange`. Consult the source code of "camel-scala" project in "Apache Camel sources":https://github.com/apache/camel since there is no javadoc/scaladoc published. Basically you can do the following and alike:
 
 * @exchange.in = message@ instead of @exchange.getIn.setBody(message)@
 * @val obj = exchange.in[Type]@ instead of @val obj = exchange.getIn.getBody(classOf[Type])@
+* @val out: Any = exchange.out@ instead of @val out: Any = exchange.getOut.getBody@
+* @val header = exchange.in("header")@ instead of @val header = exchange.getIn.getHeader("header")@
 
 h3. Processors
 
