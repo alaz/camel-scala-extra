@@ -9,7 +9,7 @@ Basically this project provides:
 
 h2. RouteHelper
 
-@com.osinka.scala.camel.RouteBuilderHelper@ trait is provided to ease writing @RouteBuilder@s. To start:
+@com.osinka.scala.camel.RouteBuilderHelper@ trait is provided to ease writing RouteBuilders. To start:
 
 <pre><code>class MyRouteBuilder extends RouteBuilder with RouteBuilderHelper {
   override def configure {</code></pre>
@@ -18,21 +18,21 @@ h3. Rich objects
 
 "camel-scala" provides a useful implicit conversion to enrich objects of `Exchange`. Consult the source code of "camel-scala" since there is no javadoc/scaladoc published. Basically you can do the following and alike:
 
-- `exchange.in = message` instead of `exchange.getIn.setBody(message)`
-- `val obj = exchange.in[Type]` instead of `val obj = exchange.getIn.getBody(classOf[Type])`
+- @exchange.in = message@ instead of @exchange.getIn.setBody(message)@
+- @val obj = exchange.in[Type]@ instead of @val obj = exchange.getIn.getBody(classOf[Type])@
 
 h3. Processors
 
-Many processors / filters in routes operate on only one part of `Exchange`, e.g. on "in" only. You can express such processor/filters with short wrappers like:
+Many processors / filters in routes operate on only one part of @Exchange@, e.g. on "in" only. You can express such processor/filters with short wrappers like:
 
-- `process(in[Int] { 1+ } toIn)` will try to convert "in" message of the exchange to `Int`, increment by 1 and write it back to "in". The is the same as `process(in[Int] { 1+ })`
-- Otherwise, you can process "out": `process(out[Int] {1+})` will write the result into "in". To write it into "out": `process(out[Int] {1+} toOut)`
+- @process(in[Int] { 1+ } .toIn)@ will try to convert "in" message of the exchange to @Int@, increment by 1 and write it back to "in". The is the same as @process(in[Int] { 1+ })@
+- Otherwise, you can process "out": @process(out[Int] {1+})@ will write the result into "in". To write it into "out": @process(out[Int] {1+} .toOut)@
 
 h3. Filters
 
 Use the same DSL for filters:
 
-- `filter(in[Int] {0==})`
+- @filter(in[Int] {0==})@
 
 h2. Converters
 
