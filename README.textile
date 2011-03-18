@@ -27,12 +27,12 @@ h3. Processors
 
 Many processors / filters in routes operate on only one part of @Exchange@, e.g. on "in" only. You can express such processor/filters with short wrappers like:
 
-* @process(in[Int] { 1+ })@ will try to convert "in" message of the exchange to @Int@, increment by 1 and write it back to "in". The is the same as @process(in[Int] { 1+ } .toIn)@ or more verbose @process(in[Int].by { 1+ }.toIn)@
-* Otherwise, you can process "out": @process(out[Int] {1+})@ will write the result into "in". To write it into "out": @process(out[Int] {1+} .toOut)@
+* @process(in(classOf[Int]) { 1+ })@ will try to convert "in" message of the exchange to @Int@, increment by 1 and write it back to "in". The is the same as @process(in(classOf[Int]) { 1+ } .toIn)@ or more verbose @process(in(classOf[Int]).by { 1+ }.toIn)@
+* Otherwise, you can process "out": @process(out(classOf[Int]) {1+})@ will write the result into "in". To write it into "out": @process(out(classOf[Int]) {1+} .toOut)@
 
 You can make use of wonderful Scala "PartialFunction"s:
 
-* @process(in[Int] collect { case i if i % 2 == 0 => "even" })@
+* @process(in(classOf[Int]) collect { case i if i % 2 == 0 => "even" })@
 
 Sometimes you just need a side-effect which does not depend on @Exchange@:
 
@@ -42,11 +42,11 @@ h3. Filters
 
 Use the same DSL for filters:
 
-* @filter(in[Int] {0==})@
+* @filter(in(classOf[Int]) {0==})@
 
 You can use "PartialFunctions" for filters as well:
 
-* @filter(in[Int] collect { case i if i % 2 == 0 => true })@
+* @filter(in(classOf[Int]) collect { case i if i % 2 == 0 => true })@
 
 h2. Converters
 
