@@ -106,7 +106,7 @@ trait RouteBuilderHelper extends Preamble { self: RouteBuilder =>
         (exchange: Exchange) => condOpt(get(exchange))(pf) foreach { exchange.getOut.setBody _ }
 
       override def predicate: Predicate =
-        (exchange: Exchange) => pf isDefinedAt get(exchange)
+        (exchange: Exchange) => condOpt(get(exchange))(pf) getOrElse false
 
       override def process(exchange: Exchange) {
         toIn.process(exchange)
