@@ -35,42 +35,42 @@ class RouteSpec extends Spec with CamelSpec with MustMatchers {
 
   describe("Processor/DSL") {
     it("should process in") {
-      val p: Processor = routeHelper.in[Int] {1+}
-      p.getClass must equal(classOf[routeHelper.FnProcessor])
+      val p: Processor = routeHelper.in(classOf[Int]) {1+}
+      p.getClass must equal(classOf[BodyExtractor[Int]#FnProcessor])
 
       val e = processExchange(p) { _.in = 1 }
       e.in[Int] must equal(2)
     }
     it("should process in -> in") {
-      val p: Processor = routeHelper.in[Int] {1+} .toIn
+      val p: Processor = routeHelper.in(classOf[Int]) {1+} .toIn
       p.getClass must equal(classOf[ScalaProcessor])
 
       val e = processExchange(p) { _.in = 1 }
       e.in[Int] must equal(2)
     }
     it("should process in -> out") {
-      val p: Processor = routeHelper.in[Int] {1+} .toOut
+      val p: Processor = routeHelper.in(classOf[Int]) {1+} .toOut
       p.getClass must equal(classOf[ScalaProcessor])
 
       val e = processExchange(p) { _.in = 1 }
       e.out must equal(2)
     }
     it("should process out ->") {
-      val p: Processor = routeHelper.out[Int] {1+}
-      p.getClass must equal(classOf[routeHelper.FnProcessor])
+      val p: Processor = routeHelper.out(classOf[Int]) {1+}
+      p.getClass must equal(classOf[BodyExtractor[Int]#FnProcessor])
 
       val e = processExchange(p) { _.out = 1 }
       e.in must equal(2)
     }
     it("should process out -> in") {
-      val p: Processor = routeHelper.out[Int] {1+} .toIn
+      val p: Processor = routeHelper.out(classOf[Int]) {1+} .toIn
       p.getClass must equal(classOf[ScalaProcessor])
 
       val e = processExchange(p) { _.out = 1 }
       e.in must equal(2)
     }
     it("should process out -> out") {
-      val p: Processor = routeHelper.out[Int] {1+} .toOut
+      val p: Processor = routeHelper.out(classOf[Int]) {1+} .toOut
       p.getClass must equal(classOf[ScalaProcessor])
 
       val e = processExchange(p) { _.out = 1 }
@@ -79,10 +79,43 @@ class RouteSpec extends Spec with CamelSpec with MustMatchers {
   }
   describe("Predicate/DSL") {
     it("should filter in") {
-      val f: Predicate = routeHelper.in[Int] {1==}
+      val f: Predicate = routeHelper.in(classOf[Int]) {1==}
       f.getClass must equal(classOf[ScalaPredicate])
 
       filterExchange(f) { _.in = 1 } must equal(true)
+    }
+  }
+  describe("PartialFunction/DSL") {
+    sealed trait AlgoType
+    case object LeafOne extends AlgoType
+    case object LeafTwo extends AlgoType
+
+    it("should leave message body if it's not in function domain") {
+      val p: Processor = routeHelper.in(classOf[AlgoType]) collect {
+        case LeafOne => LeafTwo
+      }
+      p.getClass must equal(classOf[BodyExtractor[AlgoType]#PfProcessor])
+
+      val e = processExchange(p) { _.in = LeafTwo }
+      e.in[AlgoType] must equal(LeafTwo)
+    }
+    it("should process body if it's in function domain") {
+      val p: Processor = routeHelper.in(classOf[AlgoType]) collect {
+        case LeafOne => LeafTwo
+      }
+      p.getClass must equal(classOf[BodyExtractor[AlgoType]#PfProcessor])
+
+      val e = processExchange(p) { _.in = LeafOne }
+      e.in[AlgoType] must equal(LeafTwo)
+    }
+    it("should filter") {
+      val p: Predicate = routeHelper.in(classOf[AlgoType]) collect {
+        case LeafOne => true
+      }
+      p.getClass must equal(classOf[ScalaPredicate])
+
+      filterExchange(p) { _.in = LeafOne } must equal(true)
+      filterExchange(p) { _.in = LeafTwo } must equal(false)
     }
   }
 
