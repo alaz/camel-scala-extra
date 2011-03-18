@@ -124,5 +124,33 @@ class ConverterSpec extends Spec with CamelSpec with MustMatchers {
     }
   }
 
+  describe("option converter") {
+    import collection.{Iterator, Iterable, Map, Seq, Set}
+    import java.lang.{Iterable => JIterable}
+    import java.util.{Collection => JCollection, Iterator => JIterator, List => JList}
+
+    it("must convert option -> list") {
+      to[List[Int]]( Some(2) ) must be('defined)
+    }
+    it("must convert option -> iterable") {
+      to[Iterable[Int]]( Some(2) ) must be('defined)
+    }
+    it("must convert option -> iterator") {
+      to[Iterator[Int]]( Some(2) ) must be('defined)
+    }
+    it("must convert option -> jlist") {
+      to[JList[Int]]( Some(2) ) must be('defined)
+    }
+    it("must convert option -> jcollection") {
+      to[JCollection[Int]]( Some(2) ) must be('defined)
+    }
+    it("must convert option -> jiterator") {
+      to[JIterator[Int]]( Some(2) ) must be('defined)
+    }
+    it("must convert option -> jiterable") {
+      to[JIterable[Int]]( Some(2) ) must be('defined)
+    }
+  }
+
   private def to[T](x: AnyRef)(implicit m: Manifest[T]): Option[T] = Option( context.getTypeConverter.mandatoryConvertTo(m.erasure, x).asInstanceOf[T] )
 }

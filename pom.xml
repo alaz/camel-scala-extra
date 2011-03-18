@@ -162,10 +162,11 @@
             <exclude>.git/**</exclude>
             <exclude>.manager/**</exclude>
             <exclude>*.gitignore</exclude>
-            <exclude>etc/*.txt</exclude>
+            <exclude>src/etc/*.txt</exclude>
             <exclude>*.xml</exclude>
             <exclude>*.textile</exclude>
             <exclude>project/**</exclude>
+            <exclude>.ensime</exclude>
           </excludes>
           <useDefaultExcludes>true</useDefaultExcludes>
           <mapping>

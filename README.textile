@@ -64,3 +64,13 @@ Mutable collections conversions:
 * Scala @Map@ <=> Java @Map@
 * Scala @ConcurrentMap@ <=> Java @ConcurrentMap@
 * Scala @Seq@ => Java @List@
+
+Option conversions:
+
+* @Option@ => @Iterable@
+* @Option@ => @Iterable@
+* @Option@ => @List@
+* @Option@ => Java @List@
+* @Option@ => Java @Collection@
+* @Option@ => Java @Iterator@
+* @Option@ => Java @Iterable@
