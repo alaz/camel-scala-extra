@@ -47,7 +47,13 @@ class ScalaImmutableCollections {
   def toJavaCollection[T](iterable: Iterable[T]): JCollection[T] = iterable
 
   @Converter
+  def toJavaCollection[T](list: List[T]): JCollection[T] = list
+
+  @Converter
   def toScalaIterable[T](collection: JCollection[T]): Iterable[T] = collection
+
+  @Converter
+  def toScalaList[T](collection: JCollection[T]): List[T] = (collection:Iterable[T]).toList
 
   @Converter
   def toJavaSet[T](set: Set[T]): JSet[T] = set
@@ -55,6 +61,12 @@ class ScalaImmutableCollections {
   @Converter
   def toJavaMap[A,B](map: Map[A,B]): JMap[A,B] = map
   
+  @Converter
+  def toJavaList[T](list: List[T]): JList[T] = list
+
+  @Converter
+  def toScalaList[T](list: JList[T]): List[T] = (list:Iterable[T]).toList
+
   @Converter
   def toJavaList[T](seq: Seq[T]): JList[T] = seq
 }

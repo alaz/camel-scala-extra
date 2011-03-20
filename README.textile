@@ -60,6 +60,8 @@ Immutable collections conversions:
 * Scala @Iterator@ <=> Java @Enumeration@
 * Scala @Iterable@ <=> Java @Iterable@
 * Scala @Iterable@ <=> Java @Collection@
+* Scala @List@ <=> Java @Collection@ (copy occurs when converting from Java to Scala)
+* Scala @List@ <=> Java @List@ (copy occurs when converting from Java to Scala)
 * Scala @Set@ => Java @Set@
 * Scala @Map@ => Java @Map@
 * Scala @Seq@ => Java @List@

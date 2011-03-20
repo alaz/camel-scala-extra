@@ -54,6 +54,14 @@ class ConverterSpec extends Spec with CamelSpec with MustMatchers {
       to[JIterable[Int]](it) must be('defined)
       to[JCollection[Int]](it) must be('defined)
     }
+    it("must convert java list -> scala list") {
+      to[List[Int]]( Collections.singletonList(2) ) must be('defined)
+      to[List[Int]]( Collections.emptyList ) must equal(Some(Nil))
+    }
+    it("must convert scala list -> java list") {
+      to[JList[Int]]( 2 :: Nil) must be('defined)
+      to[JList[Int]]( Nil ) must be('defined)
+    }
     it("must convert java collection") {
       val it = Collections.singletonList(1)
       to[Iterable[Int]](it) must be('defined)
