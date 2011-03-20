@@ -193,7 +193,6 @@
           </dependency>
         </dependencies>
         <configuration>
-          <connectionUrl>scm:git:git://github.com/osinka/camel-scala-extra.git</connectionUrl>
           <releaseProfiles>release</releaseProfiles>
           <goals>install</goals>
         </configuration>
