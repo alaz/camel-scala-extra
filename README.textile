@@ -48,6 +48,12 @@ You can use "PartialFunctions" for filters as well:
 
 * @filter(in(classOf[Int]) collect { case i if i % 2 == 0 => true })@
 
+h3. "Unit"
+
+If your function returns @Unit@, you should not append @.toIn@ or @.toOut@: I doubt you intentionally wanted to set the message's body to @Unit@. You should not use such functions in @filter@ as well. You will get runtime exception if you'd try to.
+
+Otherwise it is absolutely fine to use functions with @Unit@ return value: @process(in(classOf[Int]) { x => println("x="+x) })@
+
 h2. Converters
 
 Few Camel type converters for Scala types:
