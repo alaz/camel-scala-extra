@@ -15,8 +15,9 @@
  */
 package com.osinka.camel.scala
 
+import annotation.implicitNotFound
 import reflect.Manifest
-import org.apache.camel.{Exchange, Message, Processor, Predicate, CamelExecutionException}
+import org.apache.camel.{Exchange, Message, Processor, Predicate, RuntimeTransformException}
 import org.apache.camel.processor.aggregate.AggregationStrategy
 import org.apache.camel.builder.RouteBuilder
 import org.apache.camel.scala.{Preamble, RichExchange, RichMessage}
@@ -48,13 +49,13 @@ trait RouteBuilderHelper extends Preamble { self: RouteBuilder =>
    *   case event: LogoutEvent => removeSession(event)
    * })
    */
-  def in[T](clazz: Class[T]) = new BodyExtractor(_.getIn.getBody(clazz).asInstanceOf[T])
+  def in[T](clazz: Class[T]) = new BodyExtractor[T](_.getIn.getBody(clazz).asInstanceOf[T])
 
   /**
    * process { out { (s: String) => s+"11" } .toIn }
    * process { out[Int] { _+11 } .toOut }
    */
-  def out[T](clazz: Class[T]) = new BodyExtractor(_.getOut.getBody(clazz).asInstanceOf[T])
+  def out[T](clazz: Class[T]) = new BodyExtractor[T](_.getOut.getBody(clazz).asInstanceOf[T])
 
   /**
    * filter { in[Int] { _ % 2 == 0 } }
@@ -63,10 +64,35 @@ trait RouteBuilderHelper extends Preamble { self: RouteBuilder =>
   implicit def wrapperFilter(w: WrappedProcessor) = w.predicate
 
   trait WrappedProcessor extends Processor {
-    def toIn: Processor
-    def toOut: Processor
+    def run(exchange: Exchange): Option[Any]
 
-    def predicate: Predicate
+    def toIn: Processor =
+      (exchange: Exchange) =>
+        run(exchange) foreach {
+          case () => throw new RuntimeTransformException("Cannot save Unit result into message")
+          case v => exchange.in = v
+        }
+      
+    def toOut: Processor =
+      (exchange: Exchange) =>
+        run(exchange) foreach {
+          case () => throw new RuntimeTransformException("Cannot save Unit result into message")
+          case v => exchange.out = v
+        }
+
+    def predicate: Predicate =
+      (exchange: Exchange) =>
+        run(exchange) map {
+          case () => throw new RuntimeTransformException("Unit result cannot be used in Predicate")
+          case v => v
+        } getOrElse false
+
+    override def process(exchange: Exchange) {
+      run(exchange) foreach {
+        case () =>
+        case v => exchange.in = v
+      }
+    }
   }
 
   class BodyExtractor[T](val get: (Exchange) => T) {
@@ -79,38 +105,14 @@ trait RouteBuilderHelper extends Preamble { self: RouteBuilder =>
      * Wrapper for function processor / predicate
      */
     class FnProcessor(val f: (T) => Any) extends WrappedProcessor {
-      override def toOut: Processor =
-        (exchange: Exchange) => exchange.out = f(get(exchange))
-
-      override def toIn: Processor =
-        (exchange: Exchange) => exchange.in = f(get(exchange))
-
-      override def predicate: Predicate = 
-        (exchange: Exchange) => f(get(exchange))
-
-      override def process(exchange: Exchange) {
-        toIn.process(exchange)
-      }
+      override def run(exchange: Exchange): Option[Any] = Some(f(get(exchange)))
     }
 
     /**
      * Wrapper for PartialFunction processor / predicate
      */
     class PfProcessor(val pf: PartialFunction[T,Any]) extends WrappedProcessor {
-      import PartialFunction.condOpt
-
-      override def toIn: Processor =
-        (exchange: Exchange) => condOpt(get(exchange))(pf) foreach { exchange.getIn.setBody _ }
-
-      override def toOut: Processor =
-        (exchange: Exchange) => condOpt(get(exchange))(pf) foreach { exchange.getOut.setBody _ }
-
-      override def predicate: Predicate =
-        (exchange: Exchange) => condOpt(get(exchange))(pf) getOrElse false
-
-      override def process(exchange: Exchange) {
-        toIn.process(exchange)
-      }
+      override def run(exchange: Exchange): Option[Any] = PartialFunction.condOpt(get(exchange))(pf)
     }
   }
 
