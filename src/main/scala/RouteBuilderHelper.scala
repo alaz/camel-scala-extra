@@ -42,9 +42,9 @@ trait RouteBuilderHelper extends Preamble { self: RouteBuilder =>
 
   /**
    * process { in(classOf[String]) { _+"11" } .toIn }
-   * process { in[Int] { 11+ } .toOut }
+   * process { in(classOf[Int]) { 11+ } .toOut }
    * 
-   * process(in[Event] {
+   * process(in(classOf[Event]) {
    *   case event: LoginEvent => doSession(event)
    *   case event: LogoutEvent => removeSession(event)
    * })
@@ -52,14 +52,14 @@ trait RouteBuilderHelper extends Preamble { self: RouteBuilder =>
   def in[T](clazz: Class[T]) = new BodyExtractor[T](_.getIn.getBody(clazz).asInstanceOf[T])
 
   /**
-   * process { out { (s: String) => s+"11" } .toIn }
-   * process { out[Int] { _+11 } .toOut }
+   * process { out(classOf[String]) { (s: String) => s+"11" } .toIn }
+   * process { out(classOf[Int]) { _+11 } .toOut }
    */
   def out[T](clazz: Class[T]) = new BodyExtractor[T](_.getOut.getBody(clazz).asInstanceOf[T])
 
   /**
-   * filter { in[Int] { _ % 2 == 0 } }
-   * filter { out { (s: String) => s.startsWith("aa") } }
+   * filter { in(classOf[Int]) { _ % 2 == 0 } }
+   * filter { out(classOf[String]) { (s: String) => s.startsWith("aa") } }
    */
   implicit def wrapperFilter(w: WrappedProcessor) = w.predicate
 
@@ -97,6 +97,11 @@ trait RouteBuilderHelper extends Preamble { self: RouteBuilder =>
 
   class BodyExtractor[T](val get: (Exchange) => T) {
     def by(f: (T) => Any): WrappedProcessor = new FnProcessor(f)
+
+    /**
+     * process { in(classOf[Event]) collect { case event: LoginEvent => doSession(event) } }
+     * filter { in(classOf[Event]) collect { case event: LoginEvent => event.isAdmin } }
+     */
     def collect(pf: PartialFunction[T,Any]): WrappedProcessor = new PfProcessor(pf)
 
     def apply(f: (T) => Any): WrappedProcessor = by(f)
