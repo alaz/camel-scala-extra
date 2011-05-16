@@ -1,10 +1,10 @@
 h1. Extra Apache Camel methods for Scala
 
-Despite the fact this project relies on "camel-scala":http://camel.apache.org/scala-dsl.html component from Apache Camel, it provides alternative way to write routes. Instead of using beta DSL from camel-scala, you use very limited choice of implicits (certainly you can always use more from "camel-scala").
+Despite the fact this project relies on "camel-scala":http://camel.apache.org/scala-dsl.html component from Apache Camel, it provides its own alternative way to write routes. Instead of using beta DSL from camel-scala, you use very limited choice of implicits (certainly you can always use more from "camel-scala") to beautify ordinary Java DSL a little, but keep it mostly intact.
 
 Basically this project provides:
 
-* few pimps for writing `RouteBuilder`s
+* few pimps for writing @RouteBuilder@s
 * few Camel converters for Scala types and collections
 
 h2. RouteHelper
@@ -16,7 +16,7 @@ h2. RouteHelper
 
 h3. Rich objects
 
-"camel-scala" provides a useful implicit conversion to enrich objects of `Exchange`. Consult the source code of "camel-scala" project in "Apache Camel sources":https://github.com/apache/camel since there is no javadoc/scaladoc published. Basically you can do the following and alike:
+"camel-scala" is a sub-project of Apache Camel and provides useful implicit conversions to enrich @Exchange@ and @Message@ objects. Unfortunately you will need to consult the project's source code because javadoc/scaladoc is not published. Basically you can do the following and alike:
 
 * @exchange.in = message@ instead of @exchange.getIn.setBody(message)@
 * @val obj = exchange.in[Type]@ instead of @val obj = exchange.getIn.getBody(classOf[Type])@
