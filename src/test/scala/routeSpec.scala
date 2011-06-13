@@ -25,61 +25,54 @@ import org.apache.camel.builder.RouteBuilder
 import org.apache.camel.scala.dsl.{ScalaProcessor, ScalaPredicate}
 
 @RunWith(classOf[JUnitRunner])
-class RouteSpec extends Spec with CamelSpec with MustMatchers {
-  val routeHelper = new RouteBuilder with RouteBuilderHelper {
-    override def configure() {
-    }
-  }
-
-  import routeHelper._
-
+class RouteSpec extends Spec with CamelSpec with MustMatchers with Implicits {
   describe("Processor/DSL") {
     it("should process in") {
       def f(x: Int): Int = x+1
-      val e = processExchange(routeHelper.in(classOf[Int]) {f _}) { _.in = 1 }
+      val e = processExchange(in(classOf[Int]) {f _}) { _.in = 1 }
       e.in[Int] must equal(2)
     }
     it("should process in -> in") {
-      val e = processExchange(routeHelper.in(classOf[Int]) {1+} .toIn) { _.in = 1 }
+      val e = processExchange(in(classOf[Int]) {1+} .toIn) { _.in = 1 }
       e.in[Int] must equal(2)
     }
     it("should process in -> out") {
-      val e = processExchange(routeHelper.in(classOf[Int]) {1+} .toOut) { _.in = 1 }
+      val e = processExchange(in(classOf[Int]) {1+} .toOut) { _.in = 1 }
       e.out must equal(2)
     }
     it("should process out ->") {
-      val e = processExchange(routeHelper.out(classOf[Int]) {1+}) { _.out = 1 }
+      val e = processExchange(out(classOf[Int]) {1+}) { _.out = 1 }
       e.in must equal(2)
     }
     it("should process out -> in") {
-      val e = processExchange(routeHelper.out(classOf[Int]) {1+} .toIn) { _.out = 1 }
+      val e = processExchange(out(classOf[Int]) {1+} .toIn) { _.out = 1 }
       e.in must equal(2)
     }
     it("should process out -> out") {
-      val e = processExchange(routeHelper.out(classOf[Int]) {1+} .toOut) { _.out = 1 }
+      val e = processExchange(out(classOf[Int]) {1+} .toOut) { _.out = 1 }
       e.out must equal(2)
     }
     it("should not modify exchange when function returns Unit") {
       def fn(i: Int) { }
-      val e = processExchange(routeHelper.in(classOf[Int]) {fn _}) { _.in = 1}
+      val e = processExchange(in(classOf[Int]) {fn _}) { _.in = 1}
       e.in must equal(1)
     }
     it("should raise exception when trying to set In when function returns Unit") {
       def fn(i: Int) { }
-      evaluating { processExchange(routeHelper.in(classOf[Int]) {fn _} .toIn) { _.in = 1} } must produce [RuntimeTransformException]
+      evaluating { processExchange(in(classOf[Int]) {fn _} .toIn) { _.in = 1} } must produce [RuntimeTransformException]
     }
     it("should raise exception when trying to set Out when function returns Unit") {
       def fn(i: Int) { }
-      evaluating { processExchange(routeHelper.in(classOf[Int]) {fn _} .toOut) { _.in = 1} } must produce [RuntimeTransformException]
+      evaluating { processExchange(in(classOf[Int]) {fn _} .toOut) { _.in = 1} } must produce [RuntimeTransformException]
     }
   }
   describe("Predicate/DSL") {
     it("should filter in") {
-      filterExchange(routeHelper.in(classOf[Int]) {1==}) { _.in = 1 } must equal(true)
+      filterExchange(in(classOf[Int]) {1==}) { _.in = 1 } must equal(true)
     }
     it("should raise exception when trying to filter when function returns Unit") {
       def fn(i: Int) { }
-      evaluating { filterExchange(routeHelper.in(classOf[Int]) {fn _}) { _.in = 1} } must produce [RuntimeTransformException]
+      evaluating { filterExchange(in(classOf[Int]) {fn _}) { _.in = 1} } must produce [RuntimeTransformException]
     }
   }
   describe("PartialFunction/DSL") {
@@ -88,7 +81,7 @@ class RouteSpec extends Spec with CamelSpec with MustMatchers {
     case object LeafTwo extends AlgoType
 
     it("should leave message body if it's not in function domain") {
-      val p: Processor = routeHelper.in(classOf[AlgoType]) collect {
+      val p: Processor = in(classOf[AlgoType]) collect {
         case LeafOne => LeafTwo
       }
 
@@ -96,7 +89,7 @@ class RouteSpec extends Spec with CamelSpec with MustMatchers {
       e.in[AlgoType] must equal(LeafTwo)
     }
     it("should process body if it's in function domain") {
-      val p: Processor = routeHelper.in(classOf[AlgoType]) collect {
+      val p: Processor = in(classOf[AlgoType]) collect {
         case LeafOne => LeafTwo
       }
 
@@ -104,7 +97,7 @@ class RouteSpec extends Spec with CamelSpec with MustMatchers {
       e.in[AlgoType] must equal(LeafTwo)
     }
     it("should filter") {
-      val p: Predicate = routeHelper.in(classOf[AlgoType]) collect {
+      val p: Predicate = in(classOf[AlgoType]) collect {
         case LeafOne => true
       }
 

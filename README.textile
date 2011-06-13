@@ -14,6 +14,10 @@ h2. RouteHelper
 <pre><code>class MyRouteBuilder extends RouteBuilder with RouteBuilderHelper {
   override def configure {</code></pre>
 
+or just import them anywhere you'd like, e.g. your test suite:
+
+<pre><code>import com.osinka.camel.scala.Implicits._</code></pre>
+
 h3. Rich objects
 
 "camel-scala" is a sub-project of Apache Camel and provides useful implicit conversions to enrich @Exchange@ and @Message@ objects. Unfortunately you will need to consult the project's source code because javadoc/scaladoc is not published. Basically you can do the following and alike:
