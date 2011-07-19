@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2011 Alexander Azarov <azarov@osinka.com>
+ * Copyright (C) 2011 Osinka <http://osinka.ru>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,6 +19,9 @@ package converter
 import org.apache.camel.Converter
 import collection.JavaConversions._
 
+/**
+ * @author Alexander Azarov <azarov@osinka.ru>
+ */
 @Converter
 class ScalaOption {
   import collection.{Iterator, Iterable, Map, Seq}

@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2011 Alexander Azarov <azarov@osinka.com>
+ * Copyright (C) 2011 Osinka <http://osinka.ru>
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,6 +22,9 @@ import org.apache.camel.scala.dsl.{ScalaProcessor, ScalaPredicate}
 
 object Implicits extends Implicits
 
+/**
+ * @author Alexander Azarov <azarov@osinka.ru>
+ */
 trait Implicits extends Preamble {
   /**
    * Preamble in Camel 2.6.0 already lifts:
