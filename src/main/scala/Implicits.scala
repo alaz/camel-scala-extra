@@ -17,8 +17,7 @@ package com.osinka.camel.scala
 
 import org.apache.camel.{Exchange, Message, Processor, Predicate, RuntimeTransformException}
 import org.apache.camel.processor.aggregate.AggregationStrategy
-import org.apache.camel.scala.{Preamble, RichExchange, RichMessage}
-import org.apache.camel.scala.dsl.{ScalaProcessor, ScalaPredicate}
+import org.apache.camel.scala.{Preamble, RichExchange, RichMessage, ScalaProcessor, ScalaPredicate}
 
 object Implicits extends Implicits
 

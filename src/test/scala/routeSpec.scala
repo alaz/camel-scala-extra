@@ -22,7 +22,7 @@ import org.junit.runner.RunWith
 
 import org.apache.camel.{Exchange,Processor,Predicate,RuntimeTransformException}
 import org.apache.camel.builder.RouteBuilder
-import org.apache.camel.scala.dsl.{ScalaProcessor, ScalaPredicate}
+import org.apache.camel.scala.{ScalaProcessor, ScalaPredicate}
 
 @RunWith(classOf[JUnitRunner])
 class RouteSpec extends Spec with CamelSpec with MustMatchers with Implicits {
