@@ -3,7 +3,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.osinka.camel</groupId>
   <artifactId>camel-scala-extra_2.8.2</artifactId>
-  <version>1.2.4-SNAPSHOT</version> <!-- http://semver.org/ -->
+  <version>1.2.5-SNAPSHOT</version> <!-- http://semver.org/ -->
   <packaging>jar</packaging>
   <name>camel-scala-extra</name>
   <inceptionYear>2011</inceptionYear>
@@ -80,7 +80,7 @@
     <dependency>
       <groupId>org.slf4j</groupId>
       <artifactId>slf4j-simple</artifactId>
-      <version>1.6.1</version>
+      <version>1.6.4</version>
       <scope>test</scope>
     </dependency>
     <dependency>
