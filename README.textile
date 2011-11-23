@@ -28,7 +28,7 @@ h3. Rich objects
 * @val header = exchange.in("header")@ instead of @val header = exchange.getIn.getHeader("header")@
 
 h3. Processors
-
+ 
 Many processors / filters in routes operate on only one part of @Exchange@, e.g. on "in" only. You can express such processor/filters with short wrappers like:
 
 * @process(in(classOf[Int]) { 1+ })@ will try to convert "in" message of the exchange to @Int@, increment by 1 and write it back to "in". The is the same as @process(in(classOf[Int]) { 1+ } .toIn)@ or more verbose @process(in(classOf[Int]).by { 1+ }.toIn)@
