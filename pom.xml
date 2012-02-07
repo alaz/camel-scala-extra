@@ -212,6 +212,24 @@
           </plugin>
           <plugin>
             <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-javadoc-plugin</artifactId>
+            <version>2.8</version>
+            <configuration>
+              <links>
+                <link>http://camel.apache.org/maven/camel-2.2.0/camel-core/apidocs/</link>
+              </links>
+            </configuration>
+            <executions>
+              <execution>
+                <id>attach-javadocs</id>
+                <goals>
+                  <goal>jar</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-scm-plugin</artifactId>
             <version>1.5</version>
             <dependencies>
@@ -221,6 +239,23 @@
                 <version>1.5</version>
               </dependency>
             </dependencies>
+          </plugin>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-gpg-plugin</artifactId>
+            <version>1.4</version>
+            <configuration>
+              <useAgent>true</useAgent>
+            </configuration>
+            <executions>
+              <execution>
+                <id>sign-artifacts</id>
+                <phase>verify</phase>
+                <goals>
+                  <goal>sign</goal>
+                </goals>
+              </execution>
+            </executions>
           </plugin>
         </plugins>
       </build>
@@ -245,16 +280,10 @@
 
   <distributionManagement>
     <repository>
-      <id>nexus.scala-tools.org</id>
-      <name>Scala-Tools Distribution Repository for Releases</name>
-      <url>http://nexus.scala-tools.org/content/repositories/releases</url>
+      <id>sonatype-nexus-staging</id>
+      <name>Nexus Release Repository</name>
+      <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
     </repository>
-    <snapshotRepository>
-      <id>nexus.scala-tools.org</id>
-      <name>Scala-Tools Distribution Repository for Snapshots</name>
-      <url>http://nexus.scala-tools.org/content/repositories/snapshots</url>
-      <uniqueVersion>false</uniqueVersion>
-    </snapshotRepository>
   </distributionManagement>
 </project>
 
