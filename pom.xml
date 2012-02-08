@@ -7,6 +7,7 @@
   <packaging>jar</packaging>
   <name>camel-scala-extra</name>
   <inceptionYear>2011</inceptionYear>
+  <url>https://github.com/osinka/camel-scala-extra</url>
 
   <description>
     Extra Scala helpers for Apache Camel
@@ -204,24 +205,6 @@
             <executions>
               <execution>
                 <id>attach-sources</id>
-                <goals>
-                  <goal>jar</goal>
-                </goals>
-              </execution>
-            </executions>
-          </plugin>
-          <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-javadoc-plugin</artifactId>
-            <version>2.8</version>
-            <configuration>
-              <links>
-                <link>http://camel.apache.org/maven/camel-2.2.0/camel-core/apidocs/</link>
-              </links>
-            </configuration>
-            <executions>
-              <execution>
-                <id>attach-javadocs</id>
                 <goals>
                   <goal>jar</goal>
                 </goals>
