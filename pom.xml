@@ -3,7 +3,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.osinka.camel</groupId>
   <artifactId>camel-scala-extra_2.8.2</artifactId>
-  <version>1.2.7-SNAPSHOT</version> <!-- http://semver.org/ -->
+  <version>1.2.7</version> <!-- http://semver.org/ -->
   <packaging>jar</packaging>
   <name>camel-scala-extra</name>
   <inceptionYear>2011</inceptionYear>
