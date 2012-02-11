@@ -15,7 +15,7 @@
  */
 package com.osinka.camel.scala
 
-import org.scalatest.Spec
+import org.scalatest.FunSpec
 import org.scalatest.matchers.MustMatchers
 import org.scalatest.junit.JUnitRunner
 import org.junit.runner.RunWith
@@ -25,7 +25,7 @@ import org.apache.camel.builder.RouteBuilder
 import org.apache.camel.scala.{ScalaProcessor, ScalaPredicate}
 
 @RunWith(classOf[JUnitRunner])
-class RouteSpec extends Spec with CamelSpec with MustMatchers with Implicits {
+class RouteSpec extends FunSpec with CamelSpec with MustMatchers with Implicits {
   describe("Processor/DSL") {
     it("should process in") {
       def f(x: Int): Int = x+1
