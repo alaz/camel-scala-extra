@@ -16,7 +16,7 @@
 package com.osinka.camel.scala
 package converter
 
-import org.scalatest.Spec
+import org.scalatest.FunSpec
 import org.scalatest.matchers.MustMatchers
 import org.scalatest.junit.JUnitRunner
 import org.junit.runner.RunWith
@@ -24,7 +24,7 @@ import org.junit.runner.RunWith
 import reflect.Manifest
 
 @RunWith(classOf[JUnitRunner])
-class ConverterSpec extends Spec with CamelSpec with MustMatchers {
+class ConverterSpec extends FunSpec with CamelSpec with MustMatchers {
   describe("types converter") {
     it("must convert symbol to string") {
       to[String]('Test) must equal(Some("Test"))
