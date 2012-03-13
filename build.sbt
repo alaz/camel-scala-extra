@@ -4,13 +4,13 @@ organization := "com.osinka.camel"
 
 name := "camel-scala-extra"
 
-version := "1.2.8-SNAPSHOT"
+version := "1.3.0"
 
 homepage := Some(url("https://github.com/osinka/camel-scala-extra"))
 
 startYear := Some(2011)
 
-scalaVersion := "2.8.2"
+scalaVersion := "2.9.1"
 
 licenses += "Apache License, Version 2.0" -> url("http://www.apache.org/licenses/LICENSE-2.0")
 
