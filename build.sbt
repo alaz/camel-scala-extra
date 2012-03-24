@@ -1,5 +1,3 @@
-import com.jsuereth.pgp.GpgPlugin
-
 organization := "com.osinka.camel"
 
 name := "camel-scala-extra"
