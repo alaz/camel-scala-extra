@@ -2,7 +2,7 @@ organization := "com.osinka.camel"
 
 name := "camel-scala-extra"
 
-version := "1.3.1-SNAPSHOT"
+version := "1.4.0-SNAPSHOT"
 
 homepage := Some(url("https://github.com/osinka/camel-scala-extra"))
 
@@ -19,8 +19,8 @@ description := """Extra Scala helpers for Apache Camel"""
 scalacOptions += "-unchecked"
 
 libraryDependencies ++= Seq(
-  "org.apache.camel" % "camel-core" % "2.8.4",
-  "org.apache.camel" % "camel-scala" % "2.8.4",
+  "org.apache.camel" % "camel-core" % "2.9.1",
+  "org.apache.camel" % "camel-scala" % "2.9.1",
   "org.scalatest" %% "scalatest" % "1.7.1" % "test",
   "junit" % "junit" % "4.10" % "test",
   "org.slf4j" % "slf4j-simple" % "1.6.4" % "test"
