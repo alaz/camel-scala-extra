@@ -47,7 +47,7 @@
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <scala.version>2.9.1</scala.version>
-    <camel.version>2.9.1</camel.version>
+    <camel.version>2.9.2</camel.version>
   </properties>
 
   <dependencies>
