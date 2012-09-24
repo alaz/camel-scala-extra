@@ -8,7 +8,7 @@ homepage := Some(url("https://github.com/osinka/camel-scala-extra"))
 
 startYear := Some(2011)
 
-scalaVersion := "2.9.1"
+scalaVersion := "2.9.2"
 
 licenses += "Apache License, Version 2.0" -> url("http://www.apache.org/licenses/LICENSE-2.0")
 
@@ -19,11 +19,11 @@ description := """Extra Scala helpers for Apache Camel"""
 scalacOptions += "-unchecked"
 
 libraryDependencies ++= Seq(
-  "org.apache.camel" % "camel-core" % "2.9.1",
-  "org.apache.camel" % "camel-scala" % "2.9.1",
-  "org.scalatest" %% "scalatest" % "1.7.1" % "test",
+  "org.apache.camel" % "camel-core" % "2.10.1",
+  "org.apache.camel" % "camel-scala" % "2.10.1",
+  "org.scalatest" %% "scalatest" % "1.8" % "test",
   "junit" % "junit" % "4.10" % "test",
-  "org.slf4j" % "slf4j-simple" % "1.6.4" % "test"
+  "org.slf4j" % "slf4j-simple" % "1.7.1" % "test"
 )
 
 credentials += Credentials(Path.userHome / ".ivy2" / "credentials_sonatype")
