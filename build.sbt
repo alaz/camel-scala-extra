@@ -2,7 +2,7 @@ organization := "com.osinka.camel"
 
 name := "camel-scala-extra"
 
-version := "1.4.1-SNAPSHOT"
+version := "1.4.1"
 
 homepage := Some(url("https://github.com/osinka/camel-scala-extra"))
 
