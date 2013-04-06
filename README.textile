@@ -1,3 +1,5 @@
+bq. *Announcement*. "camel-scala-extra" code has been merged into Apache Camel @camel-scala@ component due to release as version 2.11, see "ticket":https://issues.apache.org/jira/browse/CAMEL-6182 This effectively means camel-scala-extra's end of life.
+
 h1. Extra Apache Camel methods for Scala
 
 Despite the fact this project relies on "camel-scala":http://camel.apache.org/scala-dsl.html component from Apache Camel, it provides its own alternative way to write routes. Instead of using beta DSL from camel-scala, you use very limited choice of implicits (certainly you can always use more from "camel-scala") to beautify ordinary Java DSL a little, but keep it mostly intact.
